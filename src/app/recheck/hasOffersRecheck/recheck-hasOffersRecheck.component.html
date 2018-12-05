@@ -1,0 +1,92 @@
+<div class="recheck">
+    <div class="row padding-tb-40">
+        <div class="col-sm-12">
+            <header class="section-title__v2">
+                <h2 class="title">HasOffers Recheck</h2>
+            </header>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="bg__white">
+                <div class="row">
+                    <div class="col-md-12" style="display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center;">
+                        <div style="display: flex; flex-wrap: wrap; padding-top: 25px; padding-left: 25px;">
+                            <div style="margin-top: -10px;">
+                                <mat-form-field id="dateRange">
+                                    <input matInput [matDatepicker]="fromDatePicker" placeholder="From" (dateChange)="onChangeDate($event, 'from')" [formControl]="dateFrom">
+                                    <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #fromDatePicker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div style="display: block; height: 34px; line-height: 34px; margin: 0 10px;"> - </div>
+                            <div style="margin-top: -10px;">
+                                <mat-form-field>
+                                    <input matInput [matDatepicker]="toDatePicker" placeholder="To" (dateChange)="onChangeDate($event, 'to')" [formControl]="dateTo">
+                                    <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #toDatePicker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; padding-top: 25px; padding-left: 25px;">
+                            <div class="col-md-6" style="padding-left: 0px;">
+                                <mat-form-field>
+                                    <input matInput placeholder="Offer ID" type="text" [(ngModel)]="offerID">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6" style="padding-left: 0px;">
+                                <mat-form-field>
+                                    <input matInput placeholder="Publisher ID" type="number" [(ngModel)]="publisherID">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="btn-group-horizontal padding-rl-30 padding-tb-20">
+                            <a href="javascript:void(0);" class="btn btn-blue btn__simple"
+                                style="margin: 0px 5px 0px 0px;"
+                                (click)="onCheckLeadsClick()"
+                            > Check Conversions </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="datatables table__v1">
+        <div class="table-top clearfix">
+            <div class="server-sorting">
+                <label *ngIf="newLeads.length" style="font-size: 14px; font-weight: bold;">{{newLeads.length}} new leads.</label>
+            </div>
+        </div>
+        <div>
+            <mat-progress-bar
+                style="height: 3px"
+                *ngIf="isConnecting"
+                [color]="color"
+                [mode]="mode"
+                [value]="value"
+                [bufferValue]="bufferValue">
+            </mat-progress-bar>
+        </div>
+        <div class="table-responsive large-table">
+            <table id="hasOffersRecheckTable" class="dataTable display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Ad ID</th>
+                        <th class="text-center">Offer ID</th>
+                        <th class="text-center">Affiliate ID</th>
+                        <th class="text-center">Payout</th>
+                        <th class="text-center">Date and Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let lead of newLeads">
+                        <td *ngFor="let prop of lead" class="text-center">{{prop}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

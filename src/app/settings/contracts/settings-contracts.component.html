@@ -1,0 +1,102 @@
+<div class="setting">
+    <div class="row padding-tb-40">
+        <div class="col-sm-12">
+            <header class="section-title__v2">
+                <h2 class="title"> Setting Contract List</h2>
+            </header>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="bottom-border bg__white">
+                <div class="row">
+                    <div class="col-md-6">
+                        <header class="section-title__v3">
+                            <h2 class="title">List Contracts</h2>
+                        </header>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right sm-pull-left btn-group-horizontal padding-rl-30 padding-tb-20">
+                            <a class="btn btn-green btn__simple" 
+                                style="text-transform: capitalize" (click)="updateContracts()">
+                                Save
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="datatables table__v1">
+        <div class="table-top clearfix">
+            <!-- <div class="pull-left server-sorting">
+                <div class="form-group horizontal large">
+                    <select [(ngModel)]="bulkActions" class="form-control" required>
+                        <option value="bulkAction">Bulk Action</option>
+                        <option value="deleteSelected">Delete Selected</option>
+                    </select>
+                </div>
+            </div> -->
+            <div class="pull-right server-sorting">
+                <div class="form-group searchbar horizontal small">
+                    <input class="form-control" id="tableSearchInput" placeholder="Type to search..." type="text" (change)="onSearch()" [(ngModel)]="searchTxt">
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive large-table">
+            <div>
+                <mat-progress-bar
+                    style="height: 3px"
+                    *ngIf="isConnecting"
+                    [color]="color"
+                    [mode]="mode"
+                    [value]="value"
+                    [bufferValue]="bufferValue">
+                </mat-progress-bar>
+            </div>
+            <table id="notificationsTable" class="dataTable mb-190 display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <!-- <th class="text-center">
+                            <input class="custom-checkbox ng-valid ng-dirty ng-touched" id="checkBoxSelectAll" type="checkbox" ng-reflect-model="false" (change)="onSelectAll()" [(ngModel)]="isSelectedAll">
+                            <label for="checkBoxSelectAll"></label>
+                        </th> -->
+                        <th class="text-center">Contract ID</th>
+                        <th class="text-center">Contract Name</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Buyer Name</th>
+                        <th class="text-center">Type</th>
+                        <th class="text-center">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let contract of contracts; let i = index;">
+                        <!-- <td class="text-center">
+                            <input class="custom-checkbox ng-untouched ng-pristine ng-valid" type="checkbox" ng-reflect-model="false" id="styled-checkbox-{{contract.uuid}}" (change)="onSelect()" [(ngModel)]="contract.selected">
+                            <label for="styled-checkbox-{{contract.uuid}}"></label>
+                        </td> -->
+                        <td class="text-center">{{contract.contractID}}</td>
+                        <td class="text-center">{{contract.contractName}}</td>
+                        <td class="text-center">{{contract.status}}</td>
+                        <td class="text-center">{{contract.buyerName}}</td>
+                        <td class="text-center">
+                            <select2
+                                [options]="{multiple: false, width: '100%'}"
+                                [value]="contract.type" 
+                                (valueChanged)="addToChangedType($event, contract.contractID, contract.type)"
+                            >
+                                <option value="performance">Performance</option>
+                                <option value="flat">Flat</option>
+                            </select2>
+                        </td>
+                        <td class="text-center">
+                            <input type="number" class="input-style" [(ngModel)]="contract.price" (change)="addToChanged($event, contract.contractID)">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

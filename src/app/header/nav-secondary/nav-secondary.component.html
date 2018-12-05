@@ -1,0 +1,24 @@
+<div class="pull-right">
+  <nav class="nav__secondary">
+      <ul>
+          <li class="has-dropdown first-level onclick no-arrow" data-anchor="dropdown">
+              <a href="javascript:void(0);" class="nav__link user-details">
+                  <div class="user-welcome">Hello, <span *ngIf="user">{{user.firstName}}</span></div>
+                  <div class="user-image image">
+                      <img src="assets/img/user-nopic.png" alt="G250" class="image__cover">
+                  </div>
+              </a>
+              <div class="dropdown accelerate right user-details">
+                  <ul class="first-level-list">
+                      <li>
+                          <a href="#" class="first-level-link"><span class="buttonify">Account Settings</span></a>
+                      </li>
+                      <li>
+                          <a routerLink="/" class="first-level-link" (click)="onLogout()"><span class="buttonify">Logout</span></a>
+                      </li>
+                  </ul>
+              </div>
+          </li>
+      </ul>
+  </nav>
+</div>

@@ -1,0 +1,43 @@
+<div class="login-box box-shadow__v1">
+    <div class="logo">
+        <img src="assets/img/logo.png" alt="G250">
+    </div>
+    <div class="gap-30"></div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group user-name">
+            <input type="text" class="form-control" placeholder="Username" formControlName="email">
+            <span class="help-block small text__red" *ngIf="!loginForm.get('email').valid && loginForm.get('email').touched">
+                <div class="gap-10"></div> Please enter your Email Address.
+            </span>
+        </div>
+        <div class="form-group password">
+            <input type="password" class="form-control" placeholder="Password" formControlName="password">
+            <span class="help-block small text__red" *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">
+                <div class="gap-10"></div> Please enter Password.
+            </span>
+            <span *ngIf="error" class="help-block small text__red login__error"><div class="gap-10"></div> <span [innerHTML]="error"></span></span>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group checkbox-wrapper v1 no-bottom-margin">
+                    <input class="custom-checkbox" id="styled-checkbox-010" type="checkbox" value="value1">
+                    <label class="labeled" for="styled-checkbox-010">Remember me!</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-blue d-flex pull-right" id="submitBtn" type="submit" style="width: 100px; justify-content: center;" [disabled]="!loginForm.valid">
+                    <span *ngIf="!isLoginstate" for="submitBtn">LogIn</span>
+                    <div style="padding-left: 10px;">
+                        <mat-progress-spinner
+                            class="mat-spinner-color"
+                            style="margin:0px; display: flex; justify-content: right;"
+                            *ngIf="isLoginstate"
+                            [diameter]="diameter"
+                            [mode]="mode">
+                        </mat-progress-spinner>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

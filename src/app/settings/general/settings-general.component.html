@@ -1,0 +1,151 @@
+<div class="setting">
+    <div class="row padding-tb-40">
+        <div class="col-sm-12">
+            <header class="section-title__v2">
+                <h2 class="title"> Setting General Page</h2>
+            </header>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="bottom-border bg__white">
+                <div class="row">
+                    <div class="col-md-12">
+                        <header class="section-title__v3">
+                            <h2 class="title">Acceptable hasoffers Offer IDs</h2>
+                        </header>
+                    </div>
+                    <div class="col-md-12 d-flex div-offerIDs">
+                        <div *ngFor="let id of offerIDs" class="btn btn-custom btn__simple" style="margin-bottom: 10px !important;">
+                            <span style="width: 50px;">{{id}}</span>
+                            <a (click)="removeID(id)" style="margin-left: 5px;">
+                                <i _ngcontent-c3="" aria-hidden="true" class="fa fa-trash"></i>
+                            </a>
+                        </div>
+                        <div class="col-md-12 padding-tb-20 padding-rl-0">
+                            <mat-form-field class="col-md-3 padding-rl-0" style="padding-right: 20px !important;">
+                                <input 
+                                    type="number" 
+                                    matInput placeholder="Please input Offer IDs" 
+                                    [(ngModel)]="newID"
+                                >
+                            </mat-form-field>
+                            <button type="button" class="btn btn-addID btn__simple" (click)="addNewID()">Add ID</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="bottom-border bg__white">
+                <div class="row">
+                    <div class="col-md-2">
+                        <header class="section-title__v3">
+                            <h2 class="title">Campaigns List</h2>
+                        </header>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="pull-right sm-pull-left btn-group-horizontal padding-rl-30 padding-tb-20">
+                            <a class="btn btn-green btn__simple" 
+                                style="text-transform: capitalize" (click)="postCampaignsIDsToServer()">
+                                Update Campaign List
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="datatables table__v1">
+        <div class="table-top clearfix">
+            <div class="pull-right server-sorting">
+                <div class="form-group searchbar horizontal small">
+                    <input class="form-control" 
+                        id="tableSearchInput" 
+                        placeholder="Type to search..." 
+                        type="text" 
+                        (change)="onSearch()" 
+                        [(ngModel)]="searchTxt"
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive large-table" style="height: 600px">
+            <div>
+                <mat-progress-bar
+                    style="height: 3px"
+                    *ngIf="isConnecting"
+                    [color]="color"
+                    [mode]="mode"
+                    [value]="value"
+                    [bufferValue]="bufferValue">
+                </mat-progress-bar>
+            </div>
+            <table id="notificationsTable" class="dataTable mb-190 display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            <input 
+                                class="custom-checkbox ng-valid ng-dirty ng-touched" 
+                                id="checkBoxSelectAll" 
+                                type="checkbox" 
+                                ng-reflect-model="false" 
+                                (change)="onSelectAll()" 
+                                [(ngModel)]="isSelectedAll"
+                            >
+                            <label for="checkBoxSelectAll"></label>
+                        </th>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Revenue Model</th>
+                        <th class="text-center">Payout Model</th>
+                        <th class="text-center">Pay per Action Type</th>
+                        <th class="text-center">Affiliate IDame</th>
+                        <th class="text-center">Affiliate Name</th>
+                        <th class="text-center">Offer ID</th>
+                        <th class="text-center">Offer Name</th>
+                        <th class="text-center">Vertical ID</th>
+                        <th class="text-center">Vertical Name</th>
+                        <th class="text-center">Payout Type</th>
+                        <th class="text-center">Revenue Typeame</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let campaign of campaigns;">
+                        <td class="text-center">
+                            <input 
+                                class="custom-checkbox ng-untouched ng-pristine ng-valid" 
+                                type="checkbox" 
+                                ng-reflect-model="false" 
+                                id="styled-checkbox-{{campaign.campaignID}}" 
+                                (change)="onSelect()" 
+                                [(ngModel)]="campaign.selected"
+                            >
+                            <label for="styled-checkbox-{{campaign.campaignID}}"></label>
+                        </td>
+                        <td class="text-center">{{campaign.campaignID}}</td>
+                        <td class="text-center">{{campaign.campaignName}}</td>
+                        <td class="text-center">{{campaign.status}}</td>
+                        <td class="text-center">{{campaign.revenueModel}}</td>
+                        <td class="text-center">{{campaign.payoutModel}}</td>
+                        <td class="text-center">{{campaign.payPerActionType}}</td>
+                        <td class="text-center">{{campaign.affiliateID}}</td>
+                        <td class="text-center">{{campaign.affiliateName}}</td>
+                        <td class="text-center">{{campaign.offerID}}</td>
+                        <td class="text-center">{{campaign.offerName}}</td>
+                        <td class="text-center">{{campaign.verticalID}}</td>
+                        <td class="text-center">{{campaign.verticalName}}</td>
+                        <td class="text-center">{{campaign.payoutType}}</td>
+                        <td class="text-center">{{campaign.revenueType}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

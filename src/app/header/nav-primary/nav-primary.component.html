@@ -1,0 +1,57 @@
+<nav class="header_navbar" >
+    <a class="navbar-toggler" href="javascript:void(0)" (click)="toggleNavbar()" >
+      <span></span>
+    </a>
+  
+    <div class="collapse navbar-collapse" [ngClass]="{ 'show': navbarOpen }">
+        <div class="nav__primary clearfix">
+            <ul>
+                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <a routerLink="/reports" class="nav__link" (click)="toggleNavbar()">Reports</a>
+                </li>
+                <li class="has-dropdown first-level widget__v2" style="margin-bottom: 0;" data-toggle="hidden">
+                    <a class="nav__link toggle-button" data-anchor="slideDown">Notifications</a>
+                    <div class="dropdown accelerate left  widget-content">
+                        <ul class="first-level-list">
+                            <li>
+                                <a [routerLink]="['/notifications', 'list']" class="first-level-link" (click)="toggleNavbar()"><span class="buttonify">Browse</span></a>
+                            </li>
+                            <li>
+                                <a [routerLink]="['/notifications', 'create']" class="first-level-link" (click)="toggleNavbar()"><span class="buttonify">Create</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="has-dropdown first-level widget__v2" style="margin-bottom: 0;" data-toggle="hidden">
+                    <a class="nav__link toggle-button" data-anchor="slideDown">Settings</a>
+                    <div class="dropdown accelerate left  widget-content">
+                        <ul class="first-level-list">
+                            <li>
+                                <a [routerLink]="['/settings', 'contracts']" class="first-level-link" (click)="toggleNavbar()"><span class="buttonify">Contracts</span></a>
+                            </li>
+                            <li>
+                                <a [routerLink]="['/settings', 'predictions']" class="first-level-link" (click)="toggleNavbar()"><span class="buttonify">Prediction</span></a>
+                            </li>
+                            <li>
+                                <a [routerLink]="['/settings', 'general']" class="first-level-link" (click)="toggleNavbar()"><span class="buttonify">General</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="has-dropdown first-level widget__v2" style="margin-bottom: 0;" data-toggle="hidden">
+                    <a class="nav__link toggle-button" data-anchor="slideDown">Recheck</a>
+                    <div class="dropdown accelerate left  widget-content">
+                        <ul class="first-level-list">
+                            <li>
+                                <a [routerLink]="['/recheck', 'hasOffersRecheck']" class="first-level-link" (click)="toggleNavbar()"><span class="buttonify">HasOffers Recheck</span></a>
+                            </li>
+                            <li>
+                                <a [routerLink]="['/recheck', 'leadsRecheck']" class="first-level-link" (click)="toggleNavbar()"><span class="buttonify">Leads Recheck</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

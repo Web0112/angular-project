@@ -1,0 +1,8 @@
+<div class="form-group horizontal small">
+    <mat-form-field>
+        <mat-select [(value)]="selectedValue" [ngModel]="selectedValue" (ngModelChange)="selectItem($event)" required>
+            <mat-option *ngFor="let value of values" [value]="value">{{value.label}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+    

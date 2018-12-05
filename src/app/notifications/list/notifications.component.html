@@ -1,0 +1,99 @@
+<div class="notifications">
+    <div class="row padding-tb-40">
+        <div class="col-sm-12">
+            <header class="section-title__v2">
+                <h2 class="title">Notification List</h2>
+            </header>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="bottom-border bg__white">
+                <div class="row">
+                    <div class="col-md-6">
+                        <header class="section-title__v3">
+                            <h2 class="title">List Notifications</h2>
+                        </header>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right sm-pull-left btn-group-horizontal padding-rl-30 padding-tb-20">
+                            <a [routerLink]="['/notifications', 'create']" class="btn btn-green btn__simple" 
+                               style="text-transform: capitalize" (click)="modalOpened=true">
+                                Add New Notification
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="datatables table__v1">
+        <div class="table-top clearfix">
+            <!-- <div class="pull-left server-sorting">
+                <div class="form-group horizontal large">
+                    <select [(ngModel)]="bulkActions" class="form-control" required>
+                        <option value="bulkAction">Bulk Action</option>
+                        <option value="deleteSelected">Delete Selected</option>
+                    </select>
+                </div>
+            </div> -->
+            <div class="pull-right server-sorting">
+                <div class="form-group searchbar horizontal small">
+                    <input class="form-control" id="tableSearchInput" placeholder="Type to search..." type="text" (change)="onSearch()" [(ngModel)]="searchTxt">
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive large-table">
+            <div>
+                <mat-progress-bar
+                    style="height: 3px"
+                    *ngIf="isConnecting"
+                    [color]="color"
+                    [mode]="mode"
+                    [value]="value"
+                    [bufferValue]="bufferValue">
+                </mat-progress-bar>
+            </div>
+            <table id="notificationsTable" class="dataTable mb-190 display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            <input class="custom-checkbox ng-valid ng-dirty ng-touched" id="checkBoxSelectAll" type="checkbox" ng-reflect-model="false" (change)="onSelectAll()" [(ngModel)]="isSelectedAll">
+                            <label for="checkBoxSelectAll"></label>
+                        </th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">ReportType</th>
+                        <th class="text-center">EmailNextEventDate</th>
+                        <th class="text-center">ReportNextEventDate</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let notification of notifications; let i = index;">
+                        <td class="text-center">
+                            <input class="custom-checkbox ng-untouched ng-pristine ng-valid" type="checkbox" ng-reflect-model="false" id="styled-checkbox-{{notification.uuid}}" (change)="onSelect()" [(ngModel)]="notification.selected">
+                            <label for="styled-checkbox-{{notification.uuid}}"></label>
+                        </td>
+                        <td class="text-center"><a style="color:dodgerblue;" [routerLink]="['/notification', notification.uuid]">{{notification.name}}</a></td>
+                        <td class="text-center">{{notification.reportType}}</td>
+                        <td class="text-center">Next email :{{notification.emailNextEventDate}}</td>
+                        <td class="text-center">Next report: {{notification.reportNextEventDate}}</td>
+                        <td class="text-center">
+                            <div class="table-actions">
+                                <a class="btn btn-action" ><span>···</span></a>
+                                <div class="dropdown xlarge">
+                                    <ul>
+                                        <li><a class="dropdown-link" [routerLink]="['/notification', notification.uuid]">Edit</a></li>
+                                        <li><a class="dropdown-link text__red" (click)="removeNotification(notification.uuid)" data-anchor="modalwindow" >Delete</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,220 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.small{ font-size: 12px !important; line-height: normal !important; }
+input.ng-invalid.ng-touched { border-bottom-color: red !important; }
+button:disabled{ background-color: #ddd !important; }
+
+.custom-dd { padding: 7px 0px !important; }
+.custom-dd option{ padding: 7px 0px !important; border: 0px !important; }
+
+.custom-dd-actionbar { 
+    color: #9699a2;  
+    border-radius: 3px; 
+    border: 1px solid #eaeaea; 
+    background-color: #fff; 
+    width: 100%; 
+    height: 32px;
+    padding: 4px 8px;
+    font-size: 13px; 
+    font-weight: 500; 
+}
+
+.custom-dd-medium { 
+    color: #9699a2;  
+    border-radius: 3px; 
+    border: 1px solid #eaeaea; 
+    background-color: #fff; 
+    width: 100%; 
+    height: 40px; 
+    padding: 9px 12px;
+    font-size: 14px; 
+    font-weight: 500; 
+}
+.custom-dd-medium option {
+    line-height: 40px;
+}
+.mce-notification-inner {
+    display: none !important; 
+}
+.__danger{ border-color: #e9595b !important; }
+.__danger .title{ 
+    background-color: #e9595b !important;
+}
+
+.select2-results__option { font-size: 14px; line-height: 24px; font-weight: 500; }
+.select2-results__option[aria-selected=true] { color: #9699a2; background-color: #eaeaea; }
+
+.alert__success{ background-color: #61c666; }
+
+.padding-rl-0{ padding-right: 0px !important; padding-left: 0px !important; }
+.padding-tb-0{ padding-top: 0px !important; padding-bottom: 0px !important; }
+.margin-rl-0{ margin-right: 0px !important; margin-left: 0px !important; }
+.margin-tb-0{ margin-top: 0px !important; margin-bottom: 0px !important; }
+
+.lh-normal{ line-height: normal !important; }
+.lh-20{ line-height: 20px !important; }
+.lh-25{ line-height: 25px !important; }
+.lh-30{ line-height: 30px !important; }
+
+.modal .modal-inner {
+    margin: 20px !important;
+}
+.modal .modal-content {
+    max-height: calc(100vh - 185px);
+    overflow-y: auto;
+}
+
+.snotifyToast div, .snotifyToast p, .snotifyToast span {
+    line-height: normal !important;
+}
+.dashboard .select2-container .select2-selection--single {
+    height: 32px;
+}
+.dashboard .select2-container--default .select2-selection--single {
+    border: 1px solid #eaeaea;
+    border-radius: 3px;
+}
+.dashboard .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 30px;
+    position: absolute;
+    top: 1px;
+    right: 6px;
+    width: 20px;
+}
+.dashboard .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #9699a2;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 32px;
+    font-family: Montserrat,sans-serif;
+}
+.dashboard .select2-container--default .select2-results__option[aria-selected=true] {
+    color: #9699a2;
+    background-color: #eaeaea;
+}
+.dashboard .select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #36a3f7;
+    color: #fff;
+}
+.dashboard .select2-results__option {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+}
+.dashboard dp-date-picker {
+    width: 100%;
+}
+.dashboard .dp-picker-input {
+    width: 100%;
+    border: 1px solid #eaeaea;
+    border-radius: 3px;
+    height: 32px;
+    padding: 0 8px;
+    color: #9699a2;
+}
+.dashboard dp-calendar-nav .dp-calendar-nav-container {
+    border: none;
+}
+.dashboard dp-calendar-nav .dp-calendar-nav-container .dp-nav-header button {
+    border: none;
+    background: none;
+}
+.dashboard dp-calendar-nav .dp-calendar-nav-container .dp-nav-header button:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+.dashboard dp-calendar-nav .dp-calendar-nav-container .dp-nav-btns-container button.dp-calendar-nav-right, .dashboard dp-calendar-nav .dp-calendar-nav-container .dp-nav-btns-container button.dp-calendar-nav-left {
+    border: none;
+    background: none;
+}
+.dashboard dp-calendar-nav .dp-calendar-nav-container .dp-nav-btns-container button.dp-calendar-nav-right:hover, .dashboard dp-calendar-nav .dp-calendar-nav-container .dp-nav-btns-container button.dp-calendar-nav-left:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+.dashboard dp-day-calendar .dp-calendar-wrapper {
+    border: none;
+}
+.dashboard dp-day-calendar .dp-calendar-weekday {
+    height: 25px;
+    line-height: 25px;
+    font-size: 12px;
+    border: none;
+}
+.dashboard dp-day-calendar .dp-calendar-day {
+    border: none;
+}
+.dashboard input.txtInput {
+    border: 1px solid #eaeaea;
+    border-radius: 3px;
+    height: 32px;
+    width: 100%;
+    padding: 0 8px;
+}
+.mat-form-field {
+    margin-top: 10px;
+    width: 100%;
+}
+.mat-form-field-infix {
+    border: 1px solid #eaeaea;
+    border-radius: 3px;
+    padding: 7px;
+    height: 32px;
+    font-size: 13.33px;
+    line-height: 20px;
+}
+.mat-input-element {
+    color: #9699a2 !important;
+}
+.mat-icon-button {
+    color: #9699a2 !important;
+}
+.mat-input-underline {
+    background: none;
+}
+.mat-form-field-label {
+    margin-left: 7px;
+    font-size: 15px !important;
+    line-height: 26px;
+}
+.mat-form-field-label-wrapper {
+    top: -15px;
+    padding-top: 15px;
+}
+.cdk-overlay-container {
+    z-index: 9999;
+}
+.chk-button {
+    font-family: Montserrat,sans-serif!important;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 15px;
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 2px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: none;
+    border-radius: 20px;
+    background-color: gray;
+    color: white !important;
+}
+.chk-button:hover {
+    background-color: #36b5f7 !important;
+}
+.chk-button.active {
+    background-color: #36a3f7;
+}
+.btn-warning {
+    background-color: #ffa23f;
+    color: white;
+}
+.btn-warning:hover {
+    background-color: #ff853f;
+    color: white;
+}
+.btn-warning:focus {
+    background-color: #ff853f !important;
+    color: white !important;
+}

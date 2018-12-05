@@ -1,0 +1,10 @@
+<div id="wrapper" (window:resize)="onResize($event)">
+    <app-header *ngIf="authService.isAuthenticated()"></app-header>
+    <div class="container">
+        <section class="dashboard">
+            <router-outlet></router-outlet>
+        </section>
+    </div>
+    <app-footer *ngIf="authService.isAuthenticated()"></app-footer>
+    <ng-snotify></ng-snotify>
+</div>

@@ -1,0 +1,286 @@
+<div class="notifications">
+    <div class="row padding-tb-40">
+        <div class="col-md-12">
+            <header class="section-title__v2">
+                <h2 class="title">Notification List</h2>
+            </header>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="bottom-border bg__white">
+                <div class="row">
+                    <div class="col-md-6">
+                        <header class="section-title__v3">
+                            <h2 class="title">Add New Notification</h2>
+                        </header>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right md-pull-left btn-group-horizontal padding-rl-30 padding-tb-20">
+                            <a [routerLink]="['/notifications', 'list']" class="btn btn-green btn__simple" 
+                                style="text-transform: capitalize" (click)="modalOpened=true">
+                                Show All Notifications
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-wrapper">
+        <div class="form-group d-flex bg__white small-gutter padding-rl-30 top-border padding-tb-10 no-bottom-margin" style="justify-content: space-between;flex-wrap: wrap;">
+            <div class="col-md-5 col-lg-3 d-flex padding-rl-20 padding-tb-20" style="flex-direction: column">
+                <label for="inputNewNotification" class="col-form-label">Name</label>
+                <div style="width: 100%">
+                    <input type="text" id="inputNewNotification" class="txtInput" [(ngModel)]="notification.name" required>
+                </div>
+            </div>
+            <div class="col-md-5 col-lg-5 d-flex padding-rl-20 padding-tb-20" style="flex-direction:column">
+                <div class="d-flex" style="flex-direction: column; width: 100%">
+                    <label for='chk-alllist' class="col-form-label">Type</label>
+                    <div style="width: 100%">
+                        <div class="checkbox-wrapper v1 checkBox">
+                            <input type='checkbox' class='ios8-switch' id='chk-alllist' [(ngModel)]="typeText" (change)="onSelectType($event)">
+                            <label for='chk-alllist'>{{notification.reportType}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="typeText" style="width: 100%">
+                    <div class="checkbox-wrapper v1 checkBox">
+                        <a class="chk-button" style="margin-left: 10px" *ngFor="let column of subIDColumn" [ngClass]="{'active': filter.statistics[column.value]}" (click)="onToggleStatistics(column.value)">{{column.title}}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-3 d-flex padding-rl-20 padding-tb-20" style="flex-direction:column">
+                <label class="col-form-label">Filters</label>
+                <div style="width: 100%">
+                    <select2
+                        [options]="{multiple: false, width: '100%'}"
+                        [data]="filters"
+                        [value]="notification.filterUuid"
+                        (valueChanged)="onChangeFilter($event)"
+                    ></select2>
+                </div>
+            </div>
+        </div>
+
+        <div class="widget__v2 bg__white top-border no-bottom-margin" data-toggle="hidden">
+            <header class="widget-header clearfix">
+                <a href="javascript:void(0);" class="btn toggle-button" style="display: flex;align-items: center;justify-content: center;" data-anchor="slideDown">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </a>
+                <div class="title-area" for="a-mailNotify">
+                    <h3 class="title">Mail Recepients and Notify on</h3>
+                </div><!-- .title-area -->
+            </header><!-- .widget-header -->
+            <div class="widget-content form-group row small-gutter padding-rl-30 padding-tb-10" style="display: none;border: 0px;margin: 0px;">
+                <div style="width: 100%; display:flex; flex-wrap: wrap; justify-content: space-between;">
+                    <div class="col-md-5 d-flex padding-rl-20" style="flex-direction: column;">
+                        <label style="width: 100%;">Mail Recepients</label>
+                        <div class="d-flex" style="width: 100%; justify-content: space-between;">
+                            <input type="text" list="emailList" class="txtInput" style="width: 70%;" [(ngModel)]="newMailRecipients" ngKeyup="emailInputKeyup($event)">
+                            <datalist id="emailList">
+                                <option *ngFor="let email of emailList">{{email.value}}</option>
+                            </datalist>
+                            <button type="button" class="btn btn-green btn__simple" id="addEmailBtn" (click)="addEmail()">Add</button>
+                        </div>
+                        <div *ngIf="notification.emailRecipients.length != 0" class="d-flex form-group padding-tb-30 no-bottom-margin" style="flex-wrap: wrap;justify-content: space-between;">
+                            <div *ngFor="let email of notification.emailRecipients" class="additional-infobox div-mail">
+                                <label>{{email}}</label>
+                                <a class="a-mail" (click)="removeEmail(email)">
+                                    <i _ngcontent-c3="" aria-hidden="true" class="fa fa-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 d-flex padding-rl-20" style="flex-direction: column;">
+                        <label style="width: 100%;">Notify on</label>
+                        <div class="d-flex" style="width: 100%; justify-content: space-between;">
+                            <div class="checkbox-wrapper v1 checkBox">
+                                <input type='checkbox' class='ios8-switch' id='chk-notify' [(ngModel)]="notification.matchAll" (change)="onSelectMatchType($event)">
+                                <label for='chk-notify'>{{matchTypeText}}</label>
+                            </div>
+                            <div style="padding: 5px; width: 60%">
+                                <select2
+                                    [options]="{multiple: false, width: '100%'}"
+                                    [data]="availableAlerts"
+                                    (valueChanged)="addAlert($event)"
+                                ></select2>
+                            </div>
+                        </div>
+                        <div *ngIf="notification.alerts.length!=0" class="d-flex padding-tb-20" style="width: 100%; flex-direction: column;">
+                            <div *ngFor="let alert of notification.alerts" class="d-flex" style="width:100%;justify-content: space-between;align-items: center;">
+                                <label style="width: 20%">{{alert.label}}</label>
+                                <div class="example-form" style="width: 30%; margin-top:10px">
+                                    <mat-form-field class="example-full-width">
+                                        <input type="number" matInput placeholder="Min" [(ngModel)]="alert.min">
+                                    </mat-form-field>
+                                </div>
+                                <div class="example-form" style="width: 30%; margin-top:10px">
+                                    <mat-form-field class="example-full-width">
+                                        <input type="number" matInput placeholder="Max" [(ngModel)]="alert.max">
+                                    </mat-form-field>
+                                </div>
+                                <a class="modal-close-btn" (click)='removeAlert(alert)' data-anchor="close-modal" >
+                                    <i _ngcontent-c3="" aria-hidden="true" class="fa fa-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="widget__v2 bg__white top-border no-bottom-margin" data-toggle="hidden">
+            <header class="widget-header clearfix">
+                <a href="javascript:void(0);" class="btn toggle-button" style="display: flex;align-items: center;justify-content: center;" data-anchor="slideDown">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </a>
+                <div class="title-area">
+                    <h3 class="title">Reports Schedule and Mails Schedule</h3>
+                </div><!-- .title-area -->
+            </header><!-- .widget-header -->
+            <div class="widget-content form-group row small-gutter padding-rl-30 padding-tb-20" style="display: none; padding-top: 0px; border: 0px;margin: 0px;">
+                <div class="form-group d-flex bg__white small-gutter padding-rl-20 padding-tb-20 no-bottom-margin no-bottom-margin">
+                    <label class="col-md-3 col-form-label">Time Zone</label>
+                    <div class="col-md-9">
+                        <ng2-timezone-picker
+                            style="width: 100%"
+                            [(timezone)]="notification.timeZone"
+                            (change)="onChangeTimezone($event)"
+                            showOffset="true"
+                            [placeholder]="placeholderString">
+                        </ng2-timezone-picker>
+                    </div>
+                </div>
+
+                <div style="width: 100%; display:flex; flex-wrap: wrap; justify-content: space-between;">
+                    <div class="form-group row small-gutter padding-tb-10 padding-rl-20 no-bottom-margin" style="width: 400px; flex-grow: 1;">
+                        <label class="col-md-3 col-form-label">Reports Schedule</label>
+                        <div class="col-md-9">
+                            <select2
+                                [options]="{multiple: true, width: '100%'}"
+                                [data]="scheduleDayLists"
+                                [value]="notification.reportDaysOfWeek"
+                                (valueChanged)="toggleWeekday($event)"
+                            ></select2>
+                        </div>
+                        <table class="dataTable mb-190 display padding-rl-0" cellspacing="0" width="100%" style="margin-top: 30px; margin-bottom: 20px;">
+                            <tr>
+                                <th></th>
+                                <th *ngFor="let hour of allHours; let i = index;">
+                                    <span style="font-size: 12px;">{{hour}}</span>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td><span style="font-size: 12px;">AM</span></td>
+                                <td *ngFor="let hour of allHours; let i = index;" style="padding: 0px">
+                                    <div class="checkbox-wrapper v1 checkBox" style="text-align:center">
+                                        <input 
+                                            type='checkbox' 
+                                            class="custom-checkbox ng-untouched ng-pristine ng-valid" 
+                                            name="report-time-am" 
+                                            value="{{hour}}" 
+                                            id='reportAcheduleAM{{hour}}' 
+                                            [checked]="notification.reportHours.indexOf(hour===12?0:hour) > -1"
+                                            (change)="toggleSelection(hour===12?0:hour)"
+                                        >
+                                        <label for='reportAcheduleAM{{hour}}'></label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span style="font-size: 12px;">PM</span></td>
+                                <td *ngFor="let hour of allHours; let i = index;" style="padding: 0px">
+                                    <div class="checkbox-wrapper v1 checkBox" style="text-align:center">
+                                        <input 
+                                            type='checkbox' 
+                                            class="custom-checkbox ng-untouched ng-pristine ng-valid" 
+                                            name="report-time-am" 
+                                            value="{{hour}}" 
+                                            id='reportAchedulePM{{hour}}' 
+                                            [checked]="notification.reportHours.indexOf(hour+12===24?12:hour+12) > -1"
+                                            (change)="toggleSelection(hour+12===24?12:hour+12)"
+                                        >
+                                        <label for='reportAchedulePM{{hour}}'></label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="form-group row small-gutter padding-tb-10 padding-rl-20 no-bottom-margin"  style="width: 400px; flex-grow: 1;">
+                        <label class="col-md-3 col-form-label">Mails Schedule</label>
+                        <div class="col-md-9">
+                            <select2
+                                [options]="{multiple: true, width: '100%'}"
+                                [data]="scheduleDayLists"
+                                [value]="notification.emailDaysOfWeek"
+                                (valueChanged)="toggleWeekdayMail($event)"
+                            ></select2>
+                        </div>
+                        <table class="dataTable mb-190 display padding-rl-0" cellspacing="0" width="100%" style="margin-top: 30px; margin-bottom: 20px;">
+                            <tr>
+                                <th></th>
+                                <th *ngFor="let hour of allHours; let i = index;">
+                                    <span style="font-size: 12px;">{{hour}}</span>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td><span style="font-size: 12px;">AM</span></td>
+                                <td *ngFor="let hour of allHours; let i = index;" style="padding: 0px">
+                                    <div class="checkbox-wrapper v1 checkBox" style="text-align:center">
+                                        <input 
+                                            type='checkbox' 
+                                            class='custom-checkbox ng-untouched ng-pristine ng-valid' 
+                                            name="mail-time-am" 
+                                            value="{{hour}}" 
+                                            id='mailAcheduleAM{{hour}}'
+                                            [checked]="notification.emailHours.indexOf(hour===12?0:hour) > -1" 
+                                            (change)="toggleSelectionEmail(hour===12?0:hour)"
+                                        >
+                                        <label for='mailAcheduleAM{{hour}}' style="display:initial"></label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span style="font-size: 12px;">PM</span></td>
+                                <td *ngFor="let hour of allHours; let i = index;" style="padding: 0px">
+                                    <div class="checkbox-wrapper v1 checkBox" style="text-align:center">
+                                        <input 
+                                            type='checkbox' 
+                                            class='custom-checkbox ng-untouched ng-pristine ng-valid' 
+                                            name="mail-time-pm" 
+                                            value="{{12+hour}}" 
+                                            id='mailAchedulePM{{hour}}' 
+                                            [checked]="notification.emailHours.indexOf(hour+12===24?12:hour+12) > -1"
+                                            (change)="toggleSelectionEmail(hour+12===24?12:hour+12)"
+                                        >
+                                        <label for='mailAchedulePM{{hour}}' style="display:initial"></label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="section-content clearfix padding-rl-30 padding-tb-30 bg__white no-bottom-margin">
+            <div class="col-md-6 pull-left">
+            </div>
+            <div class="col-md-6 pull-right text-right">
+                <button *ngIf="isUpdatePage" class="btn btn-blue btn__simple" type="button" (click)="updateNotification()">
+                    Update
+                </button>
+                <button *ngIf="!isUpdatePage" class="btn btn-green btn__simple" type="button" (click)="saveNotification()">
+                    Save as new
+                </button>
+                <button [routerLink]="['/notifications', 'list']" class="btn btn-grey btn-grey__v2 btn__simple" type="button">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>

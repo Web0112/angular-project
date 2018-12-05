@@ -1,0 +1,120 @@
+<div class="setting">
+    <div class="row padding-tb-40">
+        <div class="col-sm-12">
+            <header class="section-title__v2">
+                <h2 class="title">Prediction Settings</h2>
+            </header>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="bottom-border bg__white">
+                <div class="row">
+                    <div class="col-md-6">
+                        <header class="section-title__v3">
+                            <h2 class="title">Settings Prediction List</h2>
+                        </header>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right sm-pull-left btn-group-horizontal padding-rl-30 padding-tb-20">
+                            <a class="btn btn-green btn__simple" 
+                                style="text-transform: capitalize" (click)="onUpdateButtonClick()">
+                                Update Predictions
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="datatables table__v1">
+        <div class="table-top clearfix">
+            <div class="pull-right server-sorting">
+                <div class="form-group searchbar horizontal small">
+                    <input class="form-control" id="tableSearchInput" placeholder="Type to search..." type="text" (change)="onSearch()" [(ngModel)]="searchTxt">
+                </div>
+            </div>
+        </div>
+        <div>
+            <mat-progress-bar
+                style="height: 3px"
+                *ngIf="isConnecting"
+                [color]="color"
+                [mode]="mode"
+                [value]="value"
+                [bufferValue]="bufferValue">
+            </mat-progress-bar>
+        </div>
+        <div class="table-responsive large-table">
+            <table id="notificationsTable" class="dataTable display mb-190" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th class="text-center">Subid1</th>
+                        <th class="text-center">Subid2</th>
+                        <th class="text-center">Subid3</th>
+                        <th class="text-center">Subid4</th>
+                        <th class="text-center">Subid5</th>
+                        <th class="text-center" *ngFor="let field of fields">
+                            {{field.label}}
+                        </th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let row of subidFactors; let i = index;">
+                        <td class="text-center">{{row.subid}}</td>
+                        <td class="text-center">{{row.subid2}}</td>
+                        <td class="text-center">{{row.subid3}}</td>
+                        <td class="text-center">{{row.subid4}}</td>
+                        <td class="text-center">{{row.subid5}}</td>
+                        <td class="text-center" *ngFor="let field of fields">
+                            <input type="number" class="input-style" [(ngModel)]="row[field.name]" >
+                        </td>
+                        <td class="text-center">
+                            <div class="table-actions">
+                                <a class="btn btn-action" ><span>···</span></a>
+                                <div class="dropdown xlarge">
+                                    <ul>
+                                        <li><a class="dropdown-link text__red" (click)="removeID(row.uuid)">Delete</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <input type="text" class="input-style" [(ngModel)]="newSubid.subid">
+                        </td>
+                        <td class="text-center">
+                            <input type="text" class="input-style" [(ngModel)]="newSubid.subid2">
+                        </td>
+                        <td class="text-center">
+                            <input type="text" class="input-style" [(ngModel)]="newSubid.subid3">
+                        </td>
+                        <td class="text-center">
+                            <input type="text" class="input-style" [(ngModel)]="newSubid.subid4">
+                        </td>
+                        <td class="text-center">
+                            <input type="text" class="input-style" [(ngModel)]="newSubid.subid5">
+                        </td>
+                        <td *ngFor="let field of fields">
+                            <input type="number" class="input-style" [(ngModel)]="newSubid[field.name]">
+                        </td>
+                        <td>
+                            <div id = "id-addBtn" class="table-actions">
+                                <a class="btn btn-action" ><span>···</span></a>
+                                <div class="dropdown xlarge">
+                                    <ul>
+                                        <li><a class="dropdown-link" (click)="addNewID()">Add</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,601 @@
+
+<div class="reports">
+        <div class="row padding-tb-40">
+            <div class="col-sm-12">
+                <header class="section-title__v2">
+                    <h2 class="title">Reports</h2>
+                </header>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-md-12">
+                <div class="bottom-border bg__white">
+                    <div class="row" style="display: flex; justify-content: space-between;">
+                        <div class="pull-left">
+                            <header class="section-title__v3">
+                                <h2 class="title">List Reports</h2>
+                            </header>
+                        </div>
+                        <div class="pull-right">
+                            <div class="pull-right sm-pull-left btn-group-horizontal padding-rl-30 padding-tb-20">
+                                <a href="javascript:void(0);" class="btn btn-green btn__simple" 
+                                   style="text-transform: capitalize; margin: 0px 5px 5px 0px;"
+                                   data-anchor="modalwindow" data-target="revenue-modal" (click)="modalOpened=true">
+                                    Add Revenue
+                                </a>
+                                <a href="javascript:void(0);" class="btn btn-blue btn__simple"
+                                    style="margin: 0px 5px 5px 0px;"
+                                    data-anchor="modalwindow" data-target="filter-modal" (click)="modalOpened=true"
+                                >
+                                    Toggle Filter
+                                </a>
+                                <a href="javascript:void(0);" class="btn btn-warning btn__simple"
+                                    style="margin: 0px 0px 5px 0px;"
+                                    (click)="onGenerateReport()"
+                                >
+                                    Generate Report
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="datatables table__v1">
+            <div class="table-top clearfix">
+                <div class="pull-left padding-tb-20">
+                    <div class="form-group horizontal large" style="padding-right: 20px;">
+                        <select [(ngModel)]="bulkActions" class="form-control" required>
+                            <option value="bulkAction">Bulk Action</option>
+                            <option value="deleteSelected">Delete Selected</option>
+                        </select>
+                    </div><!-- .form-group -->
+                </div>
+                <div class="pull-left padding-tb-20" style="display: flex; flex-wrap: wrap;">
+                    <div style="margin-top: -10px;">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="fromDatePicker" placeholder="From" (dateChange)="onChangeDate($event, 'from')" [formControl]="dateFrom">
+                            <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+                            <mat-datepicker #fromDatePicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div style="display: block; height: 34px; line-height: 34px; margin: 0 10px;"> - </div>
+                    <div style="margin-top: -10px;">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="toDatePicker" placeholder="To" (dateChange)="onChangeDate($event, 'to')" [formControl]="dateTo">
+                            <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+                            <mat-datepicker #toDatePicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="pull-right padding-tb-20">
+                    <div class="form-group searchbar horizontal small">
+                        <input type="text" id="tableSearchInput" class="form-control" placeholder="Type to search...">
+                    </div>
+                </div>
+            </div>
+        
+            <div class="table-responsive large-table">
+                <div>
+                    <mat-progress-bar
+                        style="height: 3px"
+                        *ngIf="isConnecting"
+                        [mode]="mode"
+                        [value]="value"
+                        [bufferValue]="bufferValue">
+                    </mat-progress-bar>
+                </div>
+                <table id="reportsTable" class="dataTable mb-190 display" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">SubID1</th>
+                            <th class="text-center">Raw Leads</th>
+                            <th class="text-center">Accepted %</th>
+                            <th class="text-center">Method 1 %</th>
+                            <th class="text-center">Method 2 %</th>
+                            <th class="text-center">Low Predicted Profit</th>
+                            <th class="text-center">Call Connections</th>
+                            <th class="text-center">Connection %</th>
+                            <th class="text-center">Credit Pulls</th>
+                            <th class="text-center">Credit Pull %</th>
+                            <th class="text-center">Poor</th>
+                            <th class="text-center">Poor %</th>
+                            <th class="text-center">Fair</th>
+                            <th class="text-center">Fair %</th>
+                            <th class="text-center">Good</th>
+                            <th class="text-center">Good %</th>
+                            <th class="text-center">Excellent</th>
+                            <th class="text-center">Excellent %</th>
+                            <th class="text-center">Origination</th>
+                            <th class="text-center">Origination %</th>
+                            <th class="text-center">Applications</th>
+                            <th class="text-center">Applications %</th>
+                            <th class="text-center">Total Profit</th>
+                            <th class="text-center">Total Revenue</th>
+                            <th class="text-center">Residuals</th>
+                            <th class="text-center">Residual Revenue</th>
+                            <th class="text-center">Company Profit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let report of reports; let i = index;">
+                            <td class="text-center">{{report.subid}}</td>
+                            <td class="text-center">{{report.raw_leads}}</td>
+                            <td class="text-center">{{report.accepted_pct}}%</td>
+                            <td class="text-center">{{report.method1_pct}}%</td>
+                            <td class="text-center">{{report.method2_pct}}%</td>
+                            <td class="text-center">${{report.low_predicted_profit}}</td>
+                            <td class="text-center">${{report.call_connections}}</td>
+                            <td class="text-center">{{report.connections_pct}}%</td>
+                            <td class="text-center">{{report.credit_pulls}}</td>
+                            <td class="text-center">{{report.credit_pulls_pct}}%</td>
+                            <td class="text-center">{{report.cr_poor}}</td>
+                            <td class="text-center">{{report.poor_pct}}%</td>
+                            <td class="text-center">{{report.cr_fair}}</td>
+                            <td class="text-center">{{report.fair_pct}}%</td>
+                            <td class="text-center">{{report.cr_good}}</td>
+                            <td class="text-center">{{report.good_pct}}%</td>
+                            <td class="text-center">{{report.cr_excellent}}</td>
+                            <td class="text-center">{{report.excellent_pct}}%</td>
+                            <td class="text-center">{{report.originations}}</td>
+                            <td class="text-center">{{report.originations_pct}}%</td>
+                            <td class="text-center">{{report.applications}}</td>
+                            <td class="text-center">{{report.applications_pct}}%</td>
+                            <td class="text-center">{{report.total_profit}}</td>
+                            <td class="text-center">{{report.total_revenue}}</td>
+                            <td class="text-center">{{report.residuals}}</td>
+                            <td class="text-center">{{report.residual_revenue}}</td>
+                            <td class="text-center">{{report.company_profit}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        <div id="filter-modal" class="modal large" [ngClass]="modalOpened ? 'modalOpen' : 'modalClose'">
+            <div class="modal-wrapper">
+                <div class="modal-inner">
+                    <div class="modal-header">
+                        <h3 class="title">Toggle Filter</h3>
+                        <a href="javascript:void(0)" class="modal-close-btn" data-anchor="close-modal"></a>
+                    </div>
+    
+                    <div class="modal-content">
+                        <div class="widget__v2 bg__white top-border no-bottom-margin" data-toggle="hidden">
+                            <header class="widget-header clearfix">
+                                <a href="javascript:void(0);" class="btn toggle-button" style="display: flex;align-items: center;justify-content: center;" data-anchor="slideDown">
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </a>
+                                <div class="title-area">
+                                    <h3 class="title">FILTER</h3>
+                                </div><!-- .title-area -->
+                            </header><!-- .widget-header -->
+                            <div class="widget-content form-group row small-gutter padding-rl-30 padding-tb-20" style="display: none; padding-top: 0px; border: 0px;margin: 0px;">
+                                <div class="row padding-tb-10">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="selectFilters">Filters</label>
+                                            <select2
+                                                [options]="{multiple: false, width: '100%'}"
+                                                [data]="filters"
+                                                (valueChanged)="onChangeFilter($event)"
+                                            ></select2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row padding-tb-10">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="inputFilterName" class="label-top">Filter Name</label>
+                                            <input type="text" [(ngModel)]="filter.name" id="inputFilterName" placeholder="Filter Name" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="widget__v2 bg__white top-border no-bottom-margin" data-toggle="hidden">
+                            <header class="widget-header clearfix">
+                                <a href="javascript:void(0);" class="btn toggle-button" style="display: flex;align-items: center;justify-content: center;" data-anchor="slideDown">
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </a>
+                                <div class="title-area">
+                                    <h3 class="title">SUBID & LEAD TYPE</h3>
+                                </div><!-- .title-area -->
+                            </header><!-- .widget-header -->
+                            <div class="widget-content form-group row small-gutter padding-rl-30 padding-tb-20" style="display: none; padding-top: 0px; border: 0px;margin: 0px;">
+                                <div class="row padding-tb-20">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="inputSubID1" class="label-top">SubID 1</label>
+                                            <input type="text" [(ngModel)]="filter.subID1" id="inputSubID1" placeholder="SubID 1" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="inputSubID2" class="label-top">SubID 2</label>
+                                            <input type="text" [(ngModel)]="filter.subID2" id="inputSubID2" placeholder="SubID 2" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="inputSubID3" class="label-top">SubID 3</label>
+                                            <input type="text" [(ngModel)]="filter.subID3" id="inputSubID3" placeholder="SubID 3" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="inputSubID4" class="label-top">SubID 4</label>
+                                            <input type="text" [(ngModel)]="filter.subID4" id="inputSubID4" placeholder="SubID 4" placeholder="SubID 1" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="inputSubID5" class="label-top">SubID 5</label>
+                                            <input type="text" [(ngModel)]="filter.subID5" id="inputSubID5" placeholder="SubID 5" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row padding-tb-20">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="inputLeadType1" class="label-top">Lead Type 1</label>
+                                            <input type="text" [(ngModel)]="filter.leadType1" id="inputLeadType1" placeholder="Leads Type 1" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="inputLeadType2" class="label-top">Lead Type 2</label>
+                                            <input type="text" [(ngModel)]="filter.leadType2" id="inputLeadType2" placeholder="Leads Type 2" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="inputLeadType3" class="label-top">Lead Type 3</label>
+                                            <input type="text" [(ngModel)]="filter.leadType3" id="inputLeadType3" placeholder="Leads Type 3" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="selectOfferIDs">Offer IDs</label>
+                                            <select2
+                                                [options]="{multiple: false, width: '100%'}"
+                                                [data]="offers"
+                                                (valueChanged)="onChangeOfferIDs($event)"
+                                            ></select2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="widget__v2 bg__white top-border no-bottom-margin" data-toggle="hidden">
+                            <header class="widget-header clearfix">
+                                <a href="javascript:void(0);" class="btn toggle-button" style="display: flex;align-items: center;justify-content: center;" data-anchor="slideDown">
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </a>
+                                <div class="title-area">
+                                    <h3 class="title">LEAD DATA</h3>
+                                </div><!-- .title-area -->
+                            </header><!-- .widget-header -->
+                            <div class="widget-content form-group row small-gutter padding-rl-30 padding-tb-20" style="display: none; padding-top: 0px; border: 0px;margin: 0px;">
+                                <div class="row padding-tb-20">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Credit</label>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="checkbox-wrapper v1 ib-right">
+                                                        <input type='checkbox' class='ios8-switch' id='chk-creditPoor' [(ngModel)]="filter.credit.poor">
+                                                        <label for='chk-creditPoor'>Poor</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="checkbox-wrapper v1 ib-right">
+                                                        <input type='checkbox' class='ios8-switch' id='chk-creditFair' [(ngModel)]="filter.credit.fair">
+                                                        <label for='chk-creditFair'>Fair</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="checkbox-wrapper v1 ib-right">
+                                                        <input type='checkbox' class='ios8-switch' id='chk-creditGood' [(ngModel)]="filter.credit.good">
+                                                        <label for='chk-creditGood'>Good</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="checkbox-wrapper v1 ib-right">
+                                                        <input type='checkbox' class='ios8-switch' id='chk-creditExcellent' [(ngModel)]="filter.credit.excellent">
+                                                        <label for='chk-creditExcellent'>Excellent</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row padding-tb-20">
+                                    <div class="col-md-3">
+                                        <div class="checkbox-wrapper v1 ib-right">
+                                            <input type='checkbox' class='ios8-switch' id='chk-loanAmount' [(ngModel)]="filter.loanAmount">
+                                            <label for='chk-loanAmount'>Loan Amount</label>
+                                        </div></div>
+                                    <div class="col-md-3">
+                                        <div class="checkbox-wrapper v1 ib-right">
+                                            <input type='checkbox' class='ios8-switch' id='chk-state' [(ngModel)]="filter.state">
+                                            <label for='chk-state'>State</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="widget__v2 bg__white top-border no-bottom-margin" data-toggle="hidden">
+                            <header class="widget-header clearfix">
+                                <a href="javascript:void(0);" class="btn toggle-button" style="display: flex;align-items: center;justify-content: center;" data-anchor="slideDown">
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </a>
+                                <div class="title-area">
+                                    <h3 class="title">STATISTICS</h3>
+                                </div><!-- .title-area -->
+                            </header><!-- .widget-header -->
+                            <div class="widget-content form-group row small-gutter padding-rl-30 padding-tb-20" style="display: none; padding-top: 0px; border: 0px;margin: 0px;">
+                                <div class="row padding-tb-20">
+                                    <div class="col-md-12">
+                                        <div class="form-group d-flex" style="flex-direction:column; font-size: 13px;">
+                                            <div class="form group" style="display: flex; justify-content:space-between; padding-bottom: 30px">
+                                                <div class="col-md-3" style="flex-direction: column; display:flex;">
+                                                    <label style="font-weight: bold">Tracking</label>
+                                                    <div *ngFor="let t of tracking" class="checkbox-wrapper v1 ib-right">
+                                                        <input type='checkbox' class='ios8-switch' id='filter.statistics[statisticsColumns[{{t}}].value]' [(ngModel)]="filter.statistics[statisticsColumns[t].value]">
+                                                        <label for='filter.statistics[statisticsColumns[{{t}}].value]'>{{statisticsColumns[t].title}}</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3" style="flex-direction: column; display:flex;">
+                                                    <label style="font-weight: bold">Lead Data</label>
+                                                    <div *ngFor="let l of leadData" class="checkbox-wrapper v1 ib-right">
+                                                        <input type='checkbox' class='ios8-switch' id='filter.statistics[statisticsColumns[{{l}}].value]' [(ngModel)]="filter.statistics[statisticsColumns[l].value]">
+                                                        <label for='filter.statistics[statisticsColumns[{{l}}].value]'>{{statisticsColumns[l].title}}</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3" style="flex-direction: column; display:flex;">
+                                                    <label style="font-weight: bold">Revenue</label>
+                                                    <div *ngFor="let r of revenue" class="checkbox-wrapper v1 ib-right">
+                                                        <input type='checkbox' class='ios8-switch' id='filter.statistics[statisticsColumns[{{r}}].value]' [(ngModel)]="filter.statistics[statisticsColumns[r].value]">
+                                                        <label for='filter.statistics[statisticsColumns[{{r}}].value]'>{{statisticsColumns[r].title}}</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3" style="flex-direction: column; display:flex;">
+                                                    <label style="font-weight: bold">Performance</label>
+                                                    <div *ngFor="let p of performance" class="checkbox-wrapper v1 ib-right">
+                                                        <input type='checkbox' class='ios8-switch' id='filter.statistics[statisticsColumns[{{p}}].value]' [(ngModel)]="filter.statistics[statisticsColumns[p].value]">
+                                                        <label for='filter.statistics[statisticsColumns[{{p}}].value]'>{{statisticsColumns[p].title}}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form group" style="display: flex; justify-content:space-between">
+                                                <div class="col-md-3" style="flex-direction: column; display:flex;">
+                                                    <label style="font-weight: bold">Expenses</label>
+                                                    <div *ngFor="let e of expenses" class="checkbox-wrapper v1 ib-right">
+                                                        <input type='checkbox' class='ios8-switch' id='filter.statistics[statisticsColumns[{{e}}].value]' [(ngModel)]="filter.statistics[statisticsColumns[e].value]">
+                                                        <label for='filter.statistics[statisticsColumns[{{e}}].value]'>{{statisticsColumns[e].title}}</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3" style="flex-direction: column; display:flex;">
+                                                    <label style="font-weight: bold">Misc</label>
+                                                    <div *ngFor="let m of misc" class="checkbox-wrapper v1 ib-right">
+                                                        <input type='checkbox' class='ios8-switch' id='filter.statistics[statisticsColumns[{{m}}].value]' [(ngModel)]="filter.statistics[statisticsColumns[m].value]">
+                                                        <label for='filter.statistics[statisticsColumns[{{m}}].value]'>{{statisticsColumns[m].title}}</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6" style="flex-direction: column; display:flex;">
+                                                    <label style="font-weight: bold">Predictions</label>
+                                                    <div *ngFor="let p of predictions" class="checkbox-wrapper v1 ib-right">
+                                                        <input type='checkbox' class='ios8-switch' id='filter.statistics[statisticsColumns[{{p}}].value]' [(ngModel)]="filter.statistics[statisticsColumns[p].value]">
+                                                        <label for='filter.statistics[statisticsColumns[{{p}}].value]'>{{statisticsColumns[p].title}}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="widget__v2 bg__white top-border no-bottom-margin" data-toggle="hidden">
+                            <header class="widget-header clearfix">
+                                <a href="javascript:void(0);" class="btn toggle-button" style="display: flex;align-items: center;justify-content: center;" data-anchor="slideDown">
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </a>
+                                <div class="title-area">
+                                    <h3 class="title">CALCULATED STATISTICS</h3>
+                                </div><!-- .title-area -->
+                            </header><!-- .widget-header -->
+                            <div class="widget-content form-group row small-gutter padding-rl-30 padding-tb-20" style="display: none; padding-top: 0px; border: 0px;margin: 0px;">
+                                <div class="row padding-tb-20">
+                                    <div class="col-md-12" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+                                        <div *ngFor="let column of calcStatisticsColumns" class="col-md-3 checkbox-wrapper v1 ib-right">
+                                            <input type='checkbox' class='ios8-switch' id='filter.calcStatistics[{{column.value}}]' [(ngModel)]="filter.calcStatistics[column.value]">
+                                            <label for='filter.calcStatistics[{{column.value}}]'>{{column.title}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="modal-footer clearfix">
+                        <div class="pull-right btn-group-horizontal">                        
+                            <div>
+                                <a href="javascript:void(0);" class="btn btn-blue btn__simple" (click)="onSaveFilter()">
+                                    <i class="fa fa-save" aria-hidden="true"></i> Save Filter
+                                </a>
+                                <a href="javascript:void(0);" class="btn btn-green btn__simple" data-anchor="close-modal">
+                                    <i class="fa fa-check" aria-hidden="true"></i> Toggle Filter
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="bottom-border bg__white">
+                    <div class="row" style="display: flex; justify-content: space-between; flex-direction: column-reverse;">
+                        <div>
+                            <div class="pull-right sm-pull-left btn-group-horizontal padding-rl-30 padding-tb-20">
+                                <a href="javascript:void(0);" class="btn btn-blue btn__simple" 
+                                   style="text-transform: capitalize; margin: 0px 5px 5px 0px;"
+                                >
+                                    Export Leads
+                                </a>
+                                <a href="javascript:void(0);" class="btn btn-blue btn__simple"
+                                    style="margin: 0px 5px 5px 0px;"
+                                    (click)="onExportReport()"
+                                >
+                                    Export Report
+                                </a>
+                                <a href="javascript:void(0);" class="btn btn-blue btn__simple"
+                                    style="margin: 0px 0px 5px 0px;"
+                                >
+                                    Export Residuals
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    
+        <div id="revenue-modal" class="modal large" [ngClass]="modalOpened ? 'modalOpen' : 'modalClose'">
+            <div class="modal-wrapper">
+                <div class="modal-inner">
+                    <div class="modal-header">
+                        <h3 class="modal-header" style="border-bottom:0px;">Add revenue</h3>
+                        <a class="modal-close-btn" data-anchor="close-modal"></a>
+                    </div>
+    
+                    <div class="modal-content">
+                        <div class="row padding-tb-20">
+                            <div class="col-md-2">
+                                <mat-form-field>
+                                    <input matInput placeholder="SubID1" type="number" [(ngModel)]="addRevenue.subid">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-2">
+                                <mat-form-field>
+                                    <input matInput placeholder="SubID2" type="number" [(ngModel)]="addRevenue.subid2">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-2">
+                                <mat-form-field>
+                                    <input matInput placeholder="SubID3" type="number" [(ngModel)]="addRevenue.subid3">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-2">
+                                <mat-form-field>
+                                    <input matInput placeholder="SubID4" type="number" [(ngModel)]="addRevenue.subid4">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-2">
+                                <mat-form-field>
+                                    <input matInput placeholder="SubID5" type="number" [(ngModel)]="addRevenue.subid5">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row padding-tb-20">
+                            <div class="col-md-4">
+                                <mat-form-field>
+                                    <input matInput placeholder="Lead Type 1" type="number" [(ngModel)]="addRevenue.leadType1">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field>
+                                    <input matInput placeholder="Lead Type 2" type="number" [(ngModel)]="addRevenue.leadType2">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field>
+                                    <input matInput placeholder="Lead Type 3" type="number" [(ngModel)]="addRevenue.leadType3">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row padding-tb-20">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="selectOfferIDs">Offer IDs</label>
+                                    <select2
+                                        [options]="{multiple: false, width: '100%'}"
+                                        [data]="offers"
+                                        (valueChanged)="onChangeRevenueOfferIDs($event)"
+                                    ></select2>
+                                </div>
+                            </div>
+                            <div class="col-md-8" style="display: flex; flex-direction: column; flex-wrap: wrap;">
+                                <div class="form-group">
+                                    <label style="margin-left: 20px;">Credit</label>
+                                    <div class="col-md-12" style="display: flex; justify-content: space-between;">
+                                        <div class="checkbox-wrapper v1 ib-right">
+                                            <input type='checkbox' class='ios8-switch' id='chk-poor-re' [(ngModel)]="revenueCredit.poor">
+                                            <label for='chk-poor-re'>poor</label>
+                                        </div>
+                                        <div class="checkbox-wrapper v1 ib-right">
+                                            <input type='checkbox' class='ios8-switch' id='chk-fair-re' [(ngModel)]="revenueCredit.fair">
+                                            <label for='chk-fair-re'>fair</label>
+                                        </div>
+                                        <div class="checkbox-wrapper v1 ib-right">
+                                            <input type='checkbox' class='ios8-switch' id='chk-good-re' [(ngModel)]="revenueCredit.good">
+                                            <label for='chk-good-re'>good</label>
+                                        </div>
+                                        <div class="checkbox-wrapper v1 ib-right">
+                                            <input type='checkbox' class='ios8-switch' id='chk-excellent-re' [(ngModel)]="revenueCredit.excellent">
+                                            <label for='chk-excellent-re'>excellent</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row padding-tb-20">
+                            <div class="pull-left" style="margin-top: -10px; margin-left: 15px;">
+                                <mat-form-field>
+                                    <input matInput [matDatepicker]="fromRevenueDatePicker" placeholder="From" (dateChange)="onRevenueChangeDate($event, 'from')" [formControl]="dateFrom">
+                                    <mat-datepicker-toggle matSuffix [for]="fromRevenueDatePicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #fromRevenueDatePicker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="pull-left" style="display: block; height: 34px; line-height: 34px; margin: 0 10px;"> - </div>
+                            <div class="pull-left" style="margin-top: -10px;">
+                                <mat-form-field>
+                                    <input matInput [matDatepicker]="toRevenueDatePicker" placeholder="To" (dateChange)="onRevenueChangeDate($event, 'to')" [formControl]="dateTo">
+                                    <mat-datepicker-toggle matSuffix [for]="toRevenueDatePicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #toRevenueDatePicker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="pull-left" style="margin-top: -10px;">
+                                <mat-form-field>
+                                    <input matInput placeholder="Additional Revenue" type="number" [(ngModel)] = "addRevenue.addRev">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer clearfix">
+                        <div class="pull-right btn-group-horizontal">                        
+                            <div>
+                                <a href="javascript:void(0);" class="btn btn-blue btn__simple" (click)="onAddRevenue()">
+                                    <i class="fa fa-check" aria-hidden="true"></i> Add Revenue
+                                </a>
+                                <a href="javascript:void(0);" class="btn btn-grey btn__simple" data-anchor="close-modal">
+                                    Cancel
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
