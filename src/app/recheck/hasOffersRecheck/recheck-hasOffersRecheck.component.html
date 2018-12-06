@@ -11,17 +11,17 @@
         <div class="col-md-12">
             <div class="bg__white">
                 <div class="row">
-                    <div class="col-md-12" style="display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center;">
-                        <div style="display: flex; flex-wrap: wrap; padding-top: 25px; padding-left: 25px;">
-                            <div style="margin-top: -10px;">
+                    <div class="col-md-12 d-flex justify-content-between flex-wrap align-items-center">
+                        <div class="d-flex flex-wrap data-div">
+                            <div class="mat-input-div">
                                 <mat-form-field id="dateRange">
                                     <input matInput [matDatepicker]="fromDatePicker" placeholder="From" (dateChange)="onChangeDate($event, 'from')" [formControl]="dateFrom">
                                     <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
                                     <mat-datepicker #fromDatePicker></mat-datepicker>
                                 </mat-form-field>
                             </div>
-                            <div style="display: block; height: 34px; line-height: 34px; margin: 0 10px;"> - </div>
-                            <div style="margin-top: -10px;">
+                            <div class="line-div"> - </div>
+                            <div class="mat-input-div">
                                 <mat-form-field>
                                     <input matInput [matDatepicker]="toDatePicker" placeholder="To" (dateChange)="onChangeDate($event, 'to')" [formControl]="dateTo">
                                     <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
@@ -29,21 +29,20 @@
                                 </mat-form-field>
                             </div>
                         </div>
-                        <div style="display: flex; flex-wrap: wrap; padding-top: 25px; padding-left: 25px;">
-                            <div class="col-md-6" style="padding-left: 0px;">
+                        <div class="d-flex flex-wrap data-div">
+                            <div class="col-md-6 mat-input-div">
                                 <mat-form-field>
                                     <input matInput placeholder="Offer ID" type="text" [(ngModel)]="offerID">
                                 </mat-form-field>
                             </div>
-                            <div class="col-md-6" style="padding-left: 0px;">
+                            <div class="col-md-6 mat-input-div">
                                 <mat-form-field>
                                     <input matInput placeholder="Publisher ID" type="number" [(ngModel)]="publisherID">
                                 </mat-form-field>
                             </div>
                         </div>
                         <div class="btn-group-horizontal padding-rl-30 padding-tb-20">
-                            <a href="javascript:void(0);" class="btn btn-blue btn__simple"
-                                style="margin: 0px 5px 0px 0px;"
+                            <a href="javascript:void(0);" class="btn btn-blue btn__simple check-conversions-btn"
                                 (click)="onCheckLeadsClick()"
                             > Check Conversions </a>
                         </div>
@@ -54,9 +53,9 @@
     </div>
 
     <div class="datatables table__v1">
-        <div class="table-top clearfix">
+        <div *ngIf="newLeads.length" class="table-top clearfix">
             <div class="server-sorting">
-                <label *ngIf="newLeads.length" style="font-size: 14px; font-weight: bold;">{{newLeads.length}} new leads.</label>
+                <label class="newLeads-Label">{{newLeads.length}} new leads.</label>
             </div>
         </div>
         <div>

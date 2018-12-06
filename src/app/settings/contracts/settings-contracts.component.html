@@ -31,14 +31,6 @@
     
     <div class="datatables table__v1">
         <div class="table-top clearfix">
-            <!-- <div class="pull-left server-sorting">
-                <div class="form-group horizontal large">
-                    <select [(ngModel)]="bulkActions" class="form-control" required>
-                        <option value="bulkAction">Bulk Action</option>
-                        <option value="deleteSelected">Delete Selected</option>
-                    </select>
-                </div>
-            </div> -->
             <div class="pull-right server-sorting">
                 <div class="form-group searchbar horizontal small">
                     <input class="form-control" id="tableSearchInput" placeholder="Type to search..." type="text" (change)="onSearch()" [(ngModel)]="searchTxt">
@@ -59,10 +51,6 @@
             <table id="notificationsTable" class="dataTable mb-190 display" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <!-- <th class="text-center">
-                            <input class="custom-checkbox ng-valid ng-dirty ng-touched" id="checkBoxSelectAll" type="checkbox" ng-reflect-model="false" (change)="onSelectAll()" [(ngModel)]="isSelectedAll">
-                            <label for="checkBoxSelectAll"></label>
-                        </th> -->
                         <th class="text-center">Contract ID</th>
                         <th class="text-center">Contract Name</th>
                         <th class="text-center">Status</th>
@@ -73,10 +61,6 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let contract of contracts; let i = index;">
-                        <!-- <td class="text-center">
-                            <input class="custom-checkbox ng-untouched ng-pristine ng-valid" type="checkbox" ng-reflect-model="false" id="styled-checkbox-{{contract.uuid}}" (change)="onSelect()" [(ngModel)]="contract.selected">
-                            <label for="styled-checkbox-{{contract.uuid}}"></label>
-                        </td> -->
                         <td class="text-center">{{contract.contractID}}</td>
                         <td class="text-center">{{contract.contractName}}</td>
                         <td class="text-center">{{contract.status}}</td>

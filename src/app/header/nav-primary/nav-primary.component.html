@@ -6,12 +6,12 @@
     <div class="collapse navbar-collapse" [ngClass]="{ 'show': navbarOpen }">
         <div class="nav__primary clearfix">
             <ul>
-                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                     <a routerLink="/reports" class="nav__link" (click)="toggleNavbar()">Reports</a>
                 </li>
-                <li class="has-dropdown first-level widget__v2" style="margin-bottom: 0;" data-toggle="hidden">
+                <li class="has-dropdown first-level widget__v2 no-bottom-margin" data-toggle="hidden">
                     <a class="nav__link toggle-button" data-anchor="slideDown">Notifications</a>
-                    <div class="dropdown accelerate left  widget-content">
+                    <div class="dropdown accelerate left widget-content">
                         <ul class="first-level-list">
                             <li>
                                 <a [routerLink]="['/notifications', 'list']" class="first-level-link" (click)="toggleNavbar()"><span class="buttonify">Browse</span></a>
@@ -22,7 +22,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="has-dropdown first-level widget__v2" style="margin-bottom: 0;" data-toggle="hidden">
+                <li class="has-dropdown first-level widget__v2 no-bottom-margin" data-toggle="hidden">
                     <a class="nav__link toggle-button" data-anchor="slideDown">Settings</a>
                     <div class="dropdown accelerate left  widget-content">
                         <ul class="first-level-list">
@@ -38,7 +38,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="has-dropdown first-level widget__v2" style="margin-bottom: 0;" data-toggle="hidden">
+                <li class="has-dropdown first-level widget__v2 no-bottom-margin" data-toggle="hidden">
                     <a class="nav__link toggle-button" data-anchor="slideDown">Recheck</a>
                     <div class="dropdown accelerate left  widget-content">
                         <ul class="first-level-list">

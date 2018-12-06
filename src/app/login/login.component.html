@@ -25,12 +25,11 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <button class="btn btn-blue d-flex pull-right" id="submitBtn" type="submit" style="width: 100px; justify-content: center;" [disabled]="!loginForm.valid">
+                <button class="btn btn-blue d-flex pull-right justify-content-center width100" id="submitBtn" type="submit" [disabled]="!loginForm.valid">
                     <span *ngIf="!isLoginstate" for="submitBtn">LogIn</span>
-                    <div style="padding-left: 10px;">
+                    <div class="padding-left-10">
                         <mat-progress-spinner
-                            class="mat-spinner-color"
-                            style="margin:0px; display: flex; justify-content: right;"
+                            class="mat-spinner-color d-flex justify-content-right no-margin"
                             *ngIf="isLoginstate"
                             [diameter]="diameter"
                             [mode]="mode">

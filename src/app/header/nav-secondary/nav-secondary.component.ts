@@ -22,4 +22,3 @@ export class NavSecondaryComponent implements OnInit {
   }
 
 }
-

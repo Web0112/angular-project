@@ -30,15 +30,15 @@
     </div>
 
     <div class="section-wrapper">
-        <div class="form-group d-flex bg__white small-gutter padding-rl-30 top-border padding-tb-10 no-bottom-margin" style="justify-content: space-between;flex-wrap: wrap;">
-            <div class="col-md-5 col-lg-3 d-flex padding-rl-20 padding-tb-20" style="flex-direction: column">
+        <div class="form-group d-flex bg__white small-gutter padding-rl-30 top-border padding-tb-10 no-bottom-margin justify-content-between flex-wrap">
+            <div class="col-md-5 col-lg-3 d-flex padding-rl-20 padding-tb-20 flex-column">
                 <label for="inputNewNotification" class="col-form-label">Name</label>
                 <div style="width: 100%">
                     <input type="text" id="inputNewNotification" class="txtInput" [(ngModel)]="notification.name" required>
                 </div>
             </div>
-            <div class="col-md-5 col-lg-5 d-flex padding-rl-20 padding-tb-20" style="flex-direction:column">
-                <div class="d-flex" style="flex-direction: column; width: 100%">
+            <div class="col-md-5 col-lg-5 d-flex padding-rl-20 padding-tb-20 flex-column">
+                <div class="d-flex flex-column" style="width: 100%">
                     <label for='chk-alllist' class="col-form-label">Type</label>
                     <div style="width: 100%">
                         <div class="checkbox-wrapper v1 checkBox">
@@ -49,11 +49,11 @@
                 </div>
                 <div *ngIf="typeText" style="width: 100%">
                     <div class="checkbox-wrapper v1 checkBox">
-                        <a class="chk-button" style="margin-left: 10px" *ngFor="let column of subIDColumn" [ngClass]="{'active': filter.statistics[column.value]}" (click)="onToggleStatistics(column.value)">{{column.title}}</a>
+                        <a class="chk-button margin-left-10" *ngFor="let column of subIDColumn" [ngClass]="{'active': filter.statistics[column.value]}" (click)="onToggleStatistics(column.value)">{{column.title}}</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-lg-3 d-flex padding-rl-20 padding-tb-20" style="flex-direction:column">
+            <div class="col-md-12 col-lg-3 d-flex padding-rl-20 padding-tb-20 flex-column">
                 <label class="col-form-label">Filters</label>
                 <div style="width: 100%">
                     <select2
@@ -68,7 +68,7 @@
 
         <div class="widget__v2 bg__white top-border no-bottom-margin" data-toggle="hidden">
             <header class="widget-header clearfix">
-                <a href="javascript:void(0);" class="btn toggle-button" style="display: flex;align-items: center;justify-content: center;" data-anchor="slideDown">
+                <a href="javascript:void(0);" class="btn toggle-button d-flex justify-content-center align-items-center" data-anchor="slideDown">
                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </a>
                 <div class="title-area" for="a-mailNotify">
@@ -76,17 +76,17 @@
                 </div><!-- .title-area -->
             </header><!-- .widget-header -->
             <div class="widget-content form-group row small-gutter padding-rl-30 padding-tb-10" style="display: none;border: 0px;margin: 0px;">
-                <div style="width: 100%; display:flex; flex-wrap: wrap; justify-content: space-between;">
-                    <div class="col-md-5 d-flex padding-rl-20" style="flex-direction: column;">
+                <div class="d-flex flex-wrap justify-content-between" style="width: 100%;">
+                    <div class="col-md-5 d-flex padding-rl-20 flex-column">
                         <label style="width: 100%;">Mail Recepients</label>
-                        <div class="d-flex" style="width: 100%; justify-content: space-between;">
+                        <div class="d-flex justify-content-between" style="width: 100%;">
                             <input type="text" list="emailList" class="txtInput" style="width: 70%;" [(ngModel)]="newMailRecipients" ngKeyup="emailInputKeyup($event)">
                             <datalist id="emailList">
                                 <option *ngFor="let email of emailList">{{email.value}}</option>
                             </datalist>
-                            <button type="button" class="btn btn-green btn__simple" id="addEmailBtn" (click)="addEmail()">Add</button>
+                            <button type="button" class="btn btn-green btn__simple add-email-btn" id="addEmailBtn" (click)="addEmail()">Add</button>
                         </div>
-                        <div *ngIf="notification.emailRecipients.length != 0" class="d-flex form-group padding-tb-30 no-bottom-margin" style="flex-wrap: wrap;justify-content: space-between;">
+                        <div *ngIf="notification.emailRecipients.length != 0" class="d-flex form-group padding-tb-30 no-bottom-margin flex-wrap justify-content-between">
                             <div *ngFor="let email of notification.emailRecipients" class="additional-infobox div-mail">
                                 <label>{{email}}</label>
                                 <a class="a-mail" (click)="removeEmail(email)">
@@ -95,9 +95,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-5 d-flex padding-rl-20" style="flex-direction: column;">
+                    <div class="col-md-5 d-flex padding-rl-20 flex-column">
                         <label style="width: 100%;">Notify on</label>
-                        <div class="d-flex" style="width: 100%; justify-content: space-between;">
+                        <div class="d-flex justify-content-between" style="width: 100%;">
                             <div class="checkbox-wrapper v1 checkBox">
                                 <input type='checkbox' class='ios8-switch' id='chk-notify' [(ngModel)]="notification.matchAll" (change)="onSelectMatchType($event)">
                                 <label for='chk-notify'>{{matchTypeText}}</label>
@@ -110,8 +110,8 @@
                                 ></select2>
                             </div>
                         </div>
-                        <div *ngIf="notification.alerts.length!=0" class="d-flex padding-tb-20" style="width: 100%; flex-direction: column;">
-                            <div *ngFor="let alert of notification.alerts" class="d-flex" style="width:100%;justify-content: space-between;align-items: center;">
+                        <div *ngIf="notification.alerts.length!=0" class="d-flex padding-tb-20 flex-column" style="width: 100%;">
+                            <div *ngFor="let alert of notification.alerts" class="d-flex justify-content-between align-items-center" style="width:100%;">
                                 <label style="width: 20%">{{alert.label}}</label>
                                 <div class="example-form" style="width: 30%; margin-top:10px">
                                     <mat-form-field class="example-full-width">
@@ -156,7 +156,7 @@
                     </div>
                 </div>
 
-                <div style="width: 100%; display:flex; flex-wrap: wrap; justify-content: space-between;">
+                <div style="width: 100%;" class="d-flex flex-wrap justify-content-between">
                     <div class="form-group row small-gutter padding-tb-10 padding-rl-20 no-bottom-margin" style="width: 400px; flex-grow: 1;">
                         <label class="col-md-3 col-form-label">Reports Schedule</label>
                         <div class="col-md-9">
